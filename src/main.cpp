@@ -4,11 +4,7 @@
 #include <glm/glm.hpp>
 
 #include <iostream>
-#include <array>
 #include <algorithm>
-
-// #include "scene.h"
-// #include "transformation.h"
 
 #include "shader.cpp"
 
@@ -19,21 +15,7 @@ using namespace std;
     unsigned char* depth_buffer;
 
 int main() {
-    // Flat_shading flat_shading;
-    // Gouraud_shading gouraud_shading;
-    // Phong_shading phong_shading;
-
     string shading_type;
-
-    // for (int y = 0; y < Ny; y++) {
-    //     for (int x = 0; x < Nx; x++) {
-    //         image_buffer[(y * Nx + x) * 3] = 0;
-    //         image_buffer[(y * Nx + x) * 3 + 1] = 0;
-    //         image_buffer[(y * Nx + x) * 3 + 2] = 0;
-
-    //         depth_buffer[y * Nx + x] = -FLT_MAX;
-    //     }
-    // }
 
     while (true) {
         cout << "To see results, please enter: " << endl;

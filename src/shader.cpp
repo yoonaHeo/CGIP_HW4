@@ -1,8 +1,10 @@
+#include <glm/glm.hpp>
+#include <algorithm>
+#include <cstring>
+
 #include "transformation.h"
 #include "scene.h"
 #include "light.h"
-
-#include <glm/glm.hpp>
 
 using namespace glm;
 using namespace std;
@@ -63,7 +65,8 @@ Shader shader;
 
 class Unshaded {
     unsigned char* image_buffer = NULL;
-    unsigned char* depth_buffer = nullptr;
+    float depth_buffer[Nx * Ny];
+    
 public:
     Unshaded() {}
 
@@ -411,9 +414,9 @@ public:
             color_b.y = shader.ka.y * ambient_light.ia + shader.kd.y * ip * std::max(0.0f, dot(nb, lb)) + shader.ks.y * ip * pow(std::max(0.0f, dot(nb, hb)), shader.p);
             color_b.z = shader.ka.z * ambient_light.ia + shader.kd.z * ip * std::max(0.0f, dot(nb, lb)) + shader.ks.z * ip * pow(std::max(0.0f, dot(nb, hb)), shader.p);
 
-            color_c.x = shader.ka.x * ambient_light.ia + shader.kd.x * ip * std::max(0.0f, dot(nc, lc)) + shader.ks.x * ip * pow(std::max(0.0f, (nc, hc)), shader.p);
-            color_c.y = shader.ka.y * ambient_light.ia + shader.kd.y * ip * std::max(0.0f, dot(nc, lc)) + shader.ks.y * ip * pow(std::max(0.0f, (nc, hc)), shader.p);
-            color_c.z = shader.ka.z * ambient_light.ia + shader.kd.z * ip * std::max(0.0f, dot(nc, lc)) + shader.ks.z * ip * pow(std::max(0.0f, (nc, hc)), shader.p);
+            color_c.x = shader.ka.x * ambient_light.ia + shader.kd.x * ip * std::max(0.0f, dot(nc, lc)) + shader.ks.x * ip * pow(std::max(0.0f, dot(nc, hc)), shader.p);
+            color_c.y = shader.ka.y * ambient_light.ia + shader.kd.y * ip * std::max(0.0f, dot(nc, lc)) + shader.ks.y * ip * pow(std::max(0.0f, dot(nc, hc)), shader.p);
+            color_c.z = shader.ka.z * ambient_light.ia + shader.kd.z * ip * std::max(0.0f, dot(nc, lc)) + shader.ks.z * ip * pow(std::max(0.0f, dot(nc, hc)), shader.p);
 
             // after camera = projection * viewport
             mat4 temp_mtx = transformation.after_cam_pipeline(mtx);
