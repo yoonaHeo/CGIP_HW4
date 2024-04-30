@@ -435,7 +435,8 @@ Debug 모드이므로 하단의 DEBUG CONSOLE에서 출력 및 동작을 확인할 수 있습니다.
     ```
     class Unshaded {
         unsigned char* image_buffer = NULL;
-        unsigned char* depth_buffer = nullptr;
+        float depth_buffer[Nx * Ny];
+
     public:
         Unshaded() {}
 
@@ -848,9 +849,9 @@ Debug 모드이므로 하단의 DEBUG CONSOLE에서 출력 및 동작을 확인할 수 있습니다.
         color_b.y = shader.ka.y * ambient_light.ia + shader.kd.y * ip * std::max(0.0f, dot(nb, lb)) + shader.ks.y * ip * pow(std::max(0.0f, dot(nb, hb)), shader.p);
         color_b.z = shader.ka.z * ambient_light.ia + shader.kd.z * ip * std::max(0.0f, dot(nb, lb)) + shader.ks.z * ip * pow(std::max(0.0f, dot(nb, hb)), shader.p);
 
-        color_c.x = shader.ka.x * ambient_light.ia + shader.kd.x * ip * std::max(0.0f, dot(nc, lc)) + shader.ks.x * ip * pow(std::max(0.0f, (nc, hc)), shader.p);
-        color_c.y = shader.ka.y * ambient_light.ia + shader.kd.y * ip * std::max(0.0f, dot(nc, lc)) + shader.ks.y * ip * pow(std::max(0.0f, (nc, hc)), shader.p);
-        color_c.z = shader.ka.z * ambient_light.ia + shader.kd.z * ip * std::max(0.0f, dot(nc, lc)) + shader.ks.z * ip * pow(std::max(0.0f, (nc, hc)), shader.p);
+        color_c.x = shader.ka.x * ambient_light.ia + shader.kd.x * ip * std::max(0.0f, dot(nc, lc)) + shader.ks.x * ip * pow(std::max(0.0f, dot(nc, hc)), shader.p);
+        color_c.y = shader.ka.y * ambient_light.ia + shader.kd.y * ip * std::max(0.0f, dot(nc, lc)) + shader.ks.y * ip * pow(std::max(0.0f, dot(nc, hc)), shader.p);
+        color_c.z = shader.ka.z * ambient_light.ia + shader.kd.z * ip * std::max(0.0f, dot(nc, lc)) + shader.ks.z * ip * pow(std::max(0.0f, dot(nc, hc)), shader.p);
     ```
 
     각 꼭지점의 color를 구한 이후에는 좌표를 viewport space까지 변환하고, 그 값을 다시 좌표 값으로 저장합니다.
